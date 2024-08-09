@@ -11,12 +11,14 @@ import userRoutes from "./routes/user.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import { app, server } from "./socket/socket.js";
 
-app.use(cors({
-    origin:
-    process.env.NODE_ENV === "production" ? false : [process.env.FRONTEND_URL,"http://localhost:3210"],
+app.use(cors())
 
-    credentials : true
-}))
+// {
+//     origin:
+//     process.env.NODE_ENV === "production" ? false : [process.env.FRONTEND_URL,"http://localhost:3210"],
+
+//     credentials : true
+// }
 
 dotenv.config();
 
@@ -34,6 +36,9 @@ app.use("/api/users", userRoutes);
 
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
+app.get("/", (req, res) => {
+  res.send('Hello Backend')
+})
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
